@@ -16,7 +16,7 @@ export AWS_REGION=us-west-2
 export AWS_PAGER=""
 
 # openssl
-export PATH="/opt/homebrew/opt/openssl@3/bin:$PATH"
+export PATH="$HOMEBREW_PREFIX/opt/openssl@3/bin:$PATH"
 
 #volta
 export VOLTA_HOME="$HOME/.volta"
