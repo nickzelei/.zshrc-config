@@ -15,12 +15,6 @@ export PATH="$PATH:$HOME/code/nucleus/nucleus-dev/cli/bin"
 export AWS_REGION=us-west-2
 export AWS_PAGER=""
 
-# The next line updates PATH for the Google Cloud SDK.
-#if [ -f '/Users/nick/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/nick/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-#if [ -f '/Users/nick/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/nick/google-cloud-sdk/completion.zsh.inc'; fi
-
 # openssl
 export PATH="/opt/homebrew/opt/openssl@3/bin:$PATH"
 
