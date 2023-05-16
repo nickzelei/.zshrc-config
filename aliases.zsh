@@ -72,3 +72,11 @@ docker_rmi() {
     docker rmi -f $(docker images -aq)
 }
 # alias stage_tunnel='aws-vault exec stage-from-nick -- aws ssm start-session --region us-west-2 --document-name AWS-StartPortForwardingSessionToRemoteHost --parameters host="nucleus-stage-nucleus.cluster-cffkzijt5nto.us-west-2.rds.amazonaws.com",portNumber="5432",localPortNumber="5433" --target $1'
+
+dev_role() {
+    echo "$NUCLEUS_DEV_ROLE_ARN" | pbcopy
+}
+
+setup_dev_cluster() {
+    aws-vault exec dev-nick-from-nick -- aws eks update-kubeconfig --region us-west-2 --name $1
+}
