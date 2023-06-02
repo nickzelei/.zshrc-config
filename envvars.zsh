@@ -33,3 +33,6 @@ export NUCLEUS_DEV_EVENTS_TOPIC_ARN='arn:aws:sns:us-west-2:295461250191:mgmt-api
 export NUCLEUS_DEV_EVENTS_QUEUE_URL='https://sqs.us-west-2.amazonaws.com/295461250191/mgmt-api-events-queue'
 export NUCLEUS_DEV_NOTIFICATIONS_QUEUE_URL="https://sqs.us-west-2.amazonaws.com/295461250191/mgmt-api-notifications-queue"
 export NUCLEUS_DEV_ROLE_ARN='arn:aws:iam::295461250191:role/allow-full-access-from-other-accounts'
+
+# rust
+export PATH="$HOME/.cargo/bin:$PATH"
