@@ -52,6 +52,10 @@ alias kctxprod='kubectx nucleus-prod-1'
 alias kctxacme='kubectx arn:aws:eks:us-west-2:911593346794:cluster/acme2'
 alias kctxdev='kubectx kind-nuc-dev'
 
+# tilt
+alias tu='kubectx kind-nuc-dev && aws-vault exec dev-nick-from-nick -- tilt up'
+alias td='kubectx kind-nuc-dev && tilt down'
+
 alias brewup='brew update && brew upgrade && brew autoremove && brew cleanup'
 
 get_stage_tunnel() {
