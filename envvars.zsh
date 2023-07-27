@@ -36,3 +36,7 @@ export NUCLEUS_DEV_ROLE_ARN='arn:aws:iam::295461250191:role/allow-full-access-fr
 
 # rust
 export PATH="$HOME/.cargo/bin:$PATH"
+
+# krew
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+
