@@ -82,7 +82,7 @@ setup_dev_cluster() {
 # git
 alias nzm="git fetch && git checkout master && git reset --hard origin/master"
 alias nzmm="git fetch && git checkout main && git reset --hard origin/main"
-alias gmcsg="gcmsg"
+alias gmcsg="gcmsg" # I keep typoing this
 
 # Nucleus/Neosync
 alias n="neosync"
