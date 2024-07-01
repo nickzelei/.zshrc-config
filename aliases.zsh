@@ -39,24 +39,24 @@ alias td='kubectx kind-nuc-dev && tilt down'
 alias brewup='brew update && brew upgrade && brew autoremove && brew cleanup'
 
 get_stage_tunnel() {
-    INSTANCE_ID=$(aws-vault exec stage-from-nick -- aws ec2 describe-instances --filters "Name=tag:Name,Values=ssm-bastion-lt-stage" "Name=instance-state-name,Values=running" --query "Reservations[0].Instances[0].InstanceId" --output text)
+    INSTANCE_ID=$(aws-vault exec stage -- aws ec2 describe-instances --filters "Name=tag:Name,Values=ssm-bastion-lt-stage" "Name=instance-state-name,Values=running" --query "Reservations[0].Instances[0].InstanceId" --output text)
     echo "Connecting to Jump Box: $INSTANCE_ID"
-    aws-vault exec stage-from-nick -- aws ssm start-session --region us-west-2 --document-name AWS-StartPortForwardingSessionToRemoteHost --parameters host="nucleus-stage-neosync.cffkzijt5nto.us-west-2.rds.amazonaws.com",portNumber="5432",localPortNumber="5433" --target $INSTANCE_ID
+    aws-vault exec stage -- aws ssm start-session --region us-west-2 --document-name AWS-StartPortForwardingSessionToRemoteHost --parameters host="nucleus-stage-neosync.cffkzijt5nto.us-west-2.rds.amazonaws.com",portNumber="5432",localPortNumber="5433" --target $INSTANCE_ID
 }
 alias stage_tunnel='get_stage_tunnel'
 alias stage_tunnel2='get_stage_tunnel'
 
 get_prod_tunnel() {
-    INSTANCE_ID=$(aws-vault exec prod-from-nick -- aws ec2 describe-instances --filters "Name=tag:Name,Values=ssm-bastion-lt-prod" "Name=instance-state-name,Values=running" --query "Reservations[0].Instances[0].InstanceId" --output text)
+    INSTANCE_ID=$(aws-vault exec prod -- aws ec2 describe-instances --filters "Name=tag:Name,Values=ssm-bastion-lt-prod" "Name=instance-state-name,Values=running" --query "Reservations[0].Instances[0].InstanceId" --output text)
     echo "Connecting to Jump Box: $INSTANCE_ID"
-    aws-vault exec prod-from-nick -- aws ssm start-session --region us-west-2 --document-name AWS-StartPortForwardingSessionToRemoteHost --parameters host="nucleus-prod-nucleus-one.cxmhfqug8ymr.us-west-2.rds.amazonaws.com",portNumber="5432",localPortNumber="5434" --target $INSTANCE_ID
+    aws-vault exec prod -- aws ssm start-session --region us-west-2 --document-name AWS-StartPortForwardingSessionToRemoteHost --parameters host="nucleus-prod-nucleus-one.cxmhfqug8ymr.us-west-2.rds.amazonaws.com",portNumber="5432",localPortNumber="5434" --target $INSTANCE_ID
 }
 alias prod_tunnel='get_prod_tunnel'
 
 get_prod_tunnel_redis() {
-    INSTANCE_ID=$(aws-vault exec prod-from-nick -- aws ec2 describe-instances --filters "Name=tag:Name,Values=ssm-bastion-lt-prod" "Name=instance-state-name,Values=running" --query "Reservations[0].Instances[0].InstanceId" --output text)
+    INSTANCE_ID=$(aws-vault exec prod -- aws ec2 describe-instances --filters "Name=tag:Name,Values=ssm-bastion-lt-prod" "Name=instance-state-name,Values=running" --query "Reservations[0].Instances[0].InstanceId" --output text)
     echo "Connecting to Jump Box: $INSTANCE_ID"
-    aws-vault exec prod-from-nick -- aws ssm start-session --region us-west-2 --document-name AWS-StartPortForwardingSessionToRemoteHost --parameters host="master.neosync-redis.jphk2x.usw2.cache.amazonaws.com",portNumber="6379",localPortNumber="6378" --target $INSTANCE_ID
+    aws-vault exec prod -- aws ssm start-session --region us-west-2 --document-name AWS-StartPortForwardingSessionToRemoteHost --parameters host="master.neosync-redis.jphk2x.usw2.cache.amazonaws.com",portNumber="6379",localPortNumber="6378" --target $INSTANCE_ID
 }
 alias prod_tunnel_redis='get_prod_tunnel_redis'
 
