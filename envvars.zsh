@@ -22,7 +22,7 @@ export PATH="$PATH:$HOME/code/nucleus/neosync/cli/bin"
 export PATH="$PATH:$HOME/code/personal/kctxpatch/bin"
 
 # AWS
-export AWS_REGION=us-west-2
+export AWS_DEFAULT_REGION=us-west-2
 export AWS_PAGER=""
 
 # openssl
