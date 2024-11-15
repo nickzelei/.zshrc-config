@@ -4,17 +4,6 @@ export PATH="$PATH:$HOME/go/bin"
 #export GOBIN="$PWD/bin"
 #export PATH="$PATH:$GOBIN"
 
-# Nucleus
-# export PATH="$PATH:$HOME/code/nucleus/nucleus-dev/cli/bin"
-# export NUCLEUS_AWS_VAULT_PROFILE='dev-nick-from-nick'
-# export NUCLEUS_DEV_DNS_ZONE_ID='Z03366151CZTEUE71SSLS'
-# export NUCLEUS_DEV_DOMAIN_PREFIX='nick'
-# export NUCLEUS_DEV_EVENTS_TOPIC_ARN='arn:aws:sns:us-west-2:295461250191:mgmt-api-events'
-# export NUCLEUS_DEV_EVENTS_QUEUE_URL='https://sqs.us-west-2.amazonaws.com/295461250191/mgmt-api-events-queue'
-# export NUCLEUS_DEV_NOTIFICATIONS_QUEUE_URL="https://sqs.us-west-2.amazonaws.com/295461250191/mgmt-api-notifications-queue"
-# export NUCLEUS_DEV_ROLE_ARN='arn:aws:iam::295461250191:role/allow-full-access-from-other-accounts'
-
-
 # Neosync
 export PATH="$PATH:$HOME/code/nucleus/neosync/cli/bin"
 
