@@ -1,8 +1,6 @@
 # Go
 export GOPRIVATE=github.com/nucleuscloud/*
 export PATH="$PATH:$HOME/go/bin"
-#export GOBIN="$PWD/bin"
-#export PATH="$PATH:$GOBIN"
 
 # Neosync
 export PATH="$PATH:$HOME/code/nucleus/neosync/cli/bin"
