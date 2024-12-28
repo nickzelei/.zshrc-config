@@ -57,6 +57,7 @@ docker_rmi() {
 # git
 alias nzm="git fetch && git checkout master && git reset --hard origin/master"
 alias nzmm="git fetch && git checkout main && git reset --hard origin/main"
+alias devn="git fetch && git checkout develop/v0.5 && git reset --hard origin/develop/v0.5"
 alias gmcsg="gcmsg" # I keep typoing this
 alias gcsmg="gcmsg" # I keep typoing this too
 
