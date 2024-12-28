@@ -2,6 +2,11 @@
 
 To configure, simply source `setup.zsh` in your `.zshrc` file.
 
+## Motivation
+
+I previously used omz, but I found it was slowing down my shell init.
+This contains a heavily paired down version of only what I've needed over the years to keep it really simple and easy to move around.
+
 ## Plugins
 
 To install all plugins, run `git clone --recurse-submodules <url>` during the initial clone.
