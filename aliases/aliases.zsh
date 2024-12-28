@@ -63,3 +63,5 @@ alias gcsmg="gcmsg" # I keep typoing this too
 
 # Neosync
 alias n="neosync"
+
+source ~/.zshrc-config/aliases/directories.zsh

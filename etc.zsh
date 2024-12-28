@@ -7,5 +7,5 @@
 # source $HOMEBREW_PREFIX/share/google-cloud-sdk/completion.zsh.inc
 
 # pyenv
-[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
+# [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+# eval "$(pyenv init -)"
