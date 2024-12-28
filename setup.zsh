@@ -30,6 +30,8 @@ source ~/.zshrc-config/aliases/aliases.zsh
 source ~/.zshrc-config/envvars.zsh
 source ~/.zshrc-config/etc.zsh
 
+source ~/.zshrc-config/lib/git.zsh
+
 # Plugins
 
 source ~/.zshrc-config/plugins/git/git.plugin.zsh
