@@ -24,7 +24,10 @@ autoload -Uz vcs_info
 precmd() { vcs_info }
 zstyle ':vcs_info:git:*' formats ' (%b)'
 setopt PROMPT_SUBST
-PS1='%B%{$fg[cyan]%}%~%{$fg[green]%}${vcs_info_msg_0_}%{$reset_color%} ➜ %b'
+
+# commented line includes directory, second one doesn't
+# PS1='%B%{$fg[cyan]%}%~%{$fg[green]%}${vcs_info_msg_0_}%{$reset_color%} ➜ %b'
+PS1='%B%{$fg[green]%}${vcs_info_msg_0_}%{$reset_color%} ➜ %b'
 
 source ~/.zshrc-config/aliases/aliases.zsh
 source ~/.zshrc-config/envvars.zsh
@@ -41,3 +44,12 @@ source ~/.zshrc-config/plugins/git/git.plugin.zsh
 # Must be installed last
 [[ -f ~/.zshrc-config/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh ]] && \
   source ~/.zshrc-config/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
+
+# echo -ne '\e[1 q'
+
+# Set the title of the terminal window to the current directory if using iterm2
+if [ $ITERM_SESSION_ID ]; then
+precmd() {
+  echo -ne "\033]0;${PWD##*/}\007"
+}
+fi
