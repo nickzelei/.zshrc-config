@@ -33,3 +33,5 @@ export PKG_CONFIG_PATH="/opt/homebrew/opt/postgresql@15/lib/pkgconfig"
 
 # pyenv
 export PYENV_ROOT="$HOME/.pyenv"
+
+export LESS="-R" # adding -X will prevent the pager from clearing
