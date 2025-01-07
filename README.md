@@ -2,6 +2,9 @@
 
 To configure, simply source `setup.zsh` in your `.zshrc` file.
 
+Today, this repo expects to live in `~/.zshrc-config`.
+The `setup.zsh` file sources other sub files and uses that path to source them.
+
 ## Motivation
 
 I previously used omz, but I found it was slowing down my shell init.
