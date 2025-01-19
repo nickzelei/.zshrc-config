@@ -35,3 +35,6 @@ export PKG_CONFIG_PATH="/opt/homebrew/opt/postgresql@15/lib/pkgconfig"
 export PYENV_ROOT="$HOME/.pyenv"
 
 export LESS="-R" # adding -X will prevent the pager from clearing
+
+# Sets up GPG
+export GPG_TTY=$(tty)
