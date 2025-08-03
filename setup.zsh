@@ -1,6 +1,8 @@
 # Basic zsh config
 autoload -Uz compinit && compinit # Enable completion system
 zstyle ':completion:*' menu select # Enable menu selection for completion
+# autoload the hook utility
+autoload -Uz add-zsh-hook
 
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
