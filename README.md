@@ -30,7 +30,7 @@ All of the submodules are conditionally sourced in `setup.zsh`.
 - `omz git`
 - `zsh-autosuggestions`
 - `zsh-syntax-highlighting`
-- `autojump` (needs to be installed manually from <https://github.com/wting/autojump>) - Expects to be installed from homebrew.
+- `autojump` - Expects to be installed from homebrew (listed in the Brewfile).
 
 ### Updating Submodules
 
