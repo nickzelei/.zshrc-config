@@ -18,7 +18,7 @@ If the repo has already been cloned, install them by invoking the following:
 Some must be installed via brew:
 
 ```console
-brew install autojump
+brew bundle
 ```
 
 ```console
