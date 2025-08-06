@@ -15,6 +15,12 @@ This contains a heavily paired down version of only what I've needed over the ye
 To install all plugins, run `git clone --recurse-submodules <url>` during the initial clone.
 If the repo has already been cloned, install them by invoking the following:
 
+Some must be installed via brew:
+
+```console
+brew install autojump
+```
+
 ```console
 git submodule init && git submodule update
 ```
