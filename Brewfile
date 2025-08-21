@@ -8,5 +8,7 @@ brew "gnupg"
 brew "pinentry-mac"
 # Golang
 brew "go"
+# uv - python package manager
+brew "uv"
 # Universal database tool and SQL client
 cask "dbeaver-community"
