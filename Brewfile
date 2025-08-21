@@ -6,5 +6,7 @@ brew "git"
 brew "gnupg"
 # Pinentry for GPG on Mac
 brew "pinentry-mac"
+# Golang
+brew "go"
 # Universal database tool and SQL client
 cask "dbeaver-community"
