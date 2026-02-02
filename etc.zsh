@@ -13,3 +13,6 @@ pyenv() {
   eval "$(command pyenv init -)"
   pyenv "$@"
 }
+
+# claude local bin
+export PATH="$HOME/.local/bin:$PATH"
