@@ -6,13 +6,6 @@
 # source $HOMEBREW_PREFIX/share/google-cloud-sdk/path.zsh.inc
 # source $HOMEBREW_PREFIX/share/google-cloud-sdk/completion.zsh.inc
 
-# pyenv
-pyenv() {
-  unset -f pyenv
-  [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-  eval "$(command pyenv init -)"
-  pyenv "$@"
-}
-
-# claude local bin
-export PATH="$HOME/.local/bin:$PATH"
+if command -v mise >/dev/null 2>&1; then
+  eval "$(mise activate zsh)"
+fi

@@ -12,3 +12,7 @@ brew "go"
 brew "uv"
 # Universal database tool and SQL client
 cask "dbeaver-community"
+# openssl
+brew "openssl@3"
+# mise
+brew "mise"
