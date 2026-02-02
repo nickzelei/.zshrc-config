@@ -14,5 +14,8 @@ export PATH="$HOME/.cargo/bin:$PATH"
 
 export LESS="-R" # adding -X will prevent the pager from clearing
 
+# local bin for claude access
+export PATH="$HOME/.local/bin:$PATH"
+
 # Sets up GPG
 export GPG_TTY=$(tty)
