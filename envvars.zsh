@@ -22,8 +22,8 @@ export PATH="$VOLTA_HOME/bin:$PATH"
 # rust
 export PATH="$HOME/.cargo/bin:$PATH"
 
-# krew
-export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+# zig
+export PATH="$HOME/.local/zig-0.16:$PATH"
 
 # postgresql
 export PATH="/opt/homebrew/opt/postgresql@15/bin:$PATH"
