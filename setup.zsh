@@ -24,6 +24,11 @@ bindkey '^[[A' up-line-or-beginning-search    # Up arrow for history search
 bindkey '^[[B' down-line-or-beginning-search  # Down arrow for history search
 ### End of search history with arrow keys
 
+# Disable terminal flow control (XON/XOFF) so Ctrl-S/Ctrl-Q aren't swallowed by
+# the tty. Frees Ctrl-S for forward history search and stops Ctrl-S from
+# "freezing" the terminal (resumable only via Ctrl-Q).
+stty -ixon
+
 alias ls='ls --color=auto'
 alias ll='ls -lah'
 alias grep='grep --color=auto'
