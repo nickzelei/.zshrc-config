@@ -16,3 +16,6 @@ cask "dbeaver-community"
 brew "openssl@3"
 # mise
 brew "mise"
+# Term
+cask "ghostty"
+brew "bat"
