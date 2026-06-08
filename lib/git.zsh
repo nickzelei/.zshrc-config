@@ -44,7 +44,7 @@ function _omz_git_prompt_info() {
 # - https://github.com/ohmyzsh/ohmyzsh/issues/12331
 # - https://github.com/ohmyzsh/ohmyzsh/issues/12360
 # TODO(2024-06-12): @mcornella remove workaround when CentOS 7 reaches EOL
-local _style
+local _style=''
 if zstyle -t ':omz:alpha:lib:git' async-prompt \
   || { is-at-least 5.0.6 && zstyle -T ':omz:alpha:lib:git' async-prompt }; then
   function git_prompt_info() {
