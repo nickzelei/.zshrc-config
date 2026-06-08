@@ -30,7 +30,7 @@ alias grep='grep --color=auto'
 
 # Git integration in prompt
 autoload -Uz vcs_info # Load version control info
-precmd() { vcs_info } # Update vcs_info before each command
+add-zsh-hook precmd vcs_info # Update vcs_info before each command
 zstyle ':vcs_info:git:*' formats ' (%b)' # Format for git branch
 setopt PROMPT_SUBST # Enable prompt string expansion
 
@@ -54,9 +54,6 @@ source ~/.zshrc-config/plugins/git/git.plugin.zsh
 [[ -f ~/.zshrc-config/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh ]] && \
   source ~/.zshrc-config/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
 
-# Set the title of the terminal window to the current directory if using iterm2
-if [ $ITERM_SESSION_ID ]; then
-precmd() {
-  echo -ne "\033]0;${PWD##*/}\007"
-}
-fi
+# Set the terminal window/tab title to the current directory
+function _set_terminal_title() { print -Pn "\e]0;%1~\a" }
+add-zsh-hook precmd _set_terminal_title
