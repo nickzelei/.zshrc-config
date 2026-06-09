@@ -1,4 +1,6 @@
 brew "fzf"
+brew "fd" # fast find replacement; powers fzf's file/dir walkers
+brew "ripgrep" # fast grep replacement (rg)
 brew "zoxide" # shell ext. to jump to frequently used dirs (modern autojump)
 brew "git"
 brew "gnupg"
