@@ -43,15 +43,21 @@ setopt PROMPT_SUBST # Enable prompt string expansion
 # PS1='%B%{$fg[cyan]%}%~%{$fg[green]%}${vcs_info_msg_0_}%{$reset_color%} ➜ %b'
 PS1='%B%{$fg[green]%}${vcs_info_msg_0_}%{$reset_color%} ➜ %b'
 
-source ~/.zshrc-config/aliases/aliases.zsh
-source ~/.zshrc-config/envvars.zsh
-source ~/.zshrc-config/etc.zsh
+# Absolute path to this repo, derived from setup.zsh's own location so nothing
+# is hardcoded to ~/.zshrc-config. `%x` is the file currently being sourced;
+# `:A` makes it absolute (resolving symlinks), `:h` takes the directory.
+# Exported so the sub-files sourced below can reference it too.
+export ZSHRC_CONFIG_DIR="${${(%):-%x}:A:h}"
 
-source ~/.zshrc-config/lib/git.zsh
+source "$ZSHRC_CONFIG_DIR/aliases/aliases.zsh"
+source "$ZSHRC_CONFIG_DIR/envvars.zsh"
+source "$ZSHRC_CONFIG_DIR/etc.zsh"
+
+source "$ZSHRC_CONFIG_DIR/lib/git.zsh"
 
 # Plugins
 
-source ~/.zshrc-config/plugins/git/git.plugin.zsh
+source "$ZSHRC_CONFIG_DIR/plugins/git/git.plugin.zsh"
 
 # fzf-tab (brew): replaces the completion menu with an fzf picker. Must load
 # after compinit/compdef-using plugins but BEFORE zsh-autosuggestions and
@@ -64,11 +70,11 @@ if [[ -f "$HOMEBREW_PREFIX/opt/fzf-tab/share/fzf-tab/fzf-tab.zsh" ]]; then
 fi
 
 # Must be installed last
-[[ -f ~/.zshrc-config/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh ]] && \
-  source ~/.zshrc-config/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
+[[ -f "$ZSHRC_CONFIG_DIR/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh" ]] && \
+  source "$ZSHRC_CONFIG_DIR/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh"
 # Must be installed last
-[[ -f ~/.zshrc-config/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh ]] && \
-  source ~/.zshrc-config/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
+[[ -f "$ZSHRC_CONFIG_DIR/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh" ]] && \
+  source "$ZSHRC_CONFIG_DIR/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh"
 
 # Set the terminal window/tab title to the current directory
 function _set_terminal_title() { print -Pn "\e]0;%1~\a" }

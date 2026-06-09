@@ -1,9 +1,14 @@
 # ZSHRC Config
 
-To configure, simply source `setup.zsh` in your `.zshrc` file.
+To configure, simply source `setup.zsh` in your `.zshrc` file, e.g.:
 
-Today, this repo expects to live in `~/.zshrc-config`.
-The `setup.zsh` file sources other sub files and uses that path to source them.
+```console
+source ~/.zshrc-config/setup.zsh
+```
+
+The repo can live anywhere — `setup.zsh` derives its own location and sources
+the sub files relative to it (exposed as `$ZSHRC_CONFIG_DIR`). Just point the
+`source` line in your `.zshrc` at wherever you cloned it.
 
 ## Motivation
 

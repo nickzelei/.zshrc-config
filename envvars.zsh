@@ -5,7 +5,7 @@ typeset -U path PATH
 
 # Point mise at the global config tracked in this repo instead of the default
 # ~/.config/mise/config.toml. Set before `mise activate` runs in etc.zsh.
-export MISE_GLOBAL_CONFIG_FILE="$HOME/.zshrc-config/mise/config.toml"
+export MISE_GLOBAL_CONFIG_FILE="$ZSHRC_CONFIG_DIR/mise/config.toml"
 
 # Go
 # export GOPRIVATE=github.com/nucleuscloud/*

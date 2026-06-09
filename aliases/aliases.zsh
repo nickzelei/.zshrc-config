@@ -36,4 +36,4 @@ alias nzmm="git fetch && git checkout main && git reset --hard origin/main"
 alias gmcsg="gcmsg" # I keep typoing this
 alias gcsmg="gcmsg" # I keep typoing this too
 
-source ~/.zshrc-config/aliases/directories.zsh
+source "$ZSHRC_CONFIG_DIR/aliases/directories.zsh"
