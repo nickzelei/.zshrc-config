@@ -12,32 +12,50 @@ the sub files relative to it (exposed as `$ZSHRC_CONFIG_DIR`). Just point the
 
 ## Motivation
 
-I previously used omz, but I found it was slowing down my shell init.
-This contains a heavily paired down version of only what I've needed over the years to keep it really simple and easy to move around.
+I previously used oh-my-zsh, but found it was slowing down my shell init.
+This is a heavily pared-down setup with only what I've needed over the years —
+simple, fast, and easy to move between machines.
 
-## Plugins
+## Layout
 
-To install all plugins, run `git clone --recurse-submodules <url>` during the initial clone.
-If the repo has already been cloned, install them by invoking the following:
+- `setup.zsh` — entrypoint; prompt, history, keybindings, and sources the rest.
+- `envvars.zsh` — environment variables and `$PATH` setup.
+- `aliases/` — aliases and directory shortcuts.
+- `etc.zsh` — wires up CLI tools (`zoxide`, `mise`, `fzf`).
+- `lib/git.zsh` — git helper functions.
+- `mise/config.toml` — global [mise](https://mise.jdx.dev) tool config, pointed
+  at via `MISE_GLOBAL_CONFIG_FILE` so the tool baseline is tracked in the repo.
+- `plugins/` — the vendored `git` plugin plus zsh plugin submodules.
 
-Some must be installed via brew:
+## Setup
+
+### Homebrew dependencies
+
+CLI tools and apps are managed via the `Brewfile` (`fzf`, `fd`, `ripgrep`,
+`fzf-tab`, `zoxide`, `mise`, `bat`, `lazygit`, `gh`, etc.):
 
 ```console
 brew bundle
 ```
 
+### Plugins
+
+Submodules (`zsh-autosuggestions`, `zsh-syntax-highlighting`) are conditionally
+sourced in `setup.zsh`. Clone with submodules:
+
+```console
+git clone --recurse-submodules <url>
+```
+
+Or, if already cloned:
+
 ```console
 git submodule init && git submodule update
 ```
 
-All of the submodules are conditionally sourced in `setup.zsh`.
+`fzf-tab` is installed via Homebrew (in the `Brewfile`) and sourced from there.
 
-- `omz git`
-- `zsh-autosuggestions`
-- `zsh-syntax-highlighting`
-- `autojump` - Expects to be installed from homebrew (listed in the Brewfile).
-
-### Updating Submodules
+#### Updating submodules
 
 ```console
 git submodule update --remote --merge
