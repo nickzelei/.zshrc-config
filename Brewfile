@@ -11,6 +11,7 @@ brew "mise"
 brew "bat"
 brew "gh"
 brew "lazygit"
+brew "hyperfine" # statistical benchmarking; used by bench/bench.zsh
 
 cask "ghostty"
 cask "music-decoy" # https://lowtechguys.com/musicdecoy/

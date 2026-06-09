@@ -1,3 +1,8 @@
+# Profiling: `ZSH_PROFILE=1 zsh -i -c exit` prints a per-component timing table
+# (via zsh/zprof) so you can see what's slow. No-op when ZSH_PROFILE is unset.
+# Must load before the code being profiled, so keep it first.
+[[ -n "$ZSH_PROFILE" ]] && zmodload zsh/zprof
+
 # Basic zsh config
 autoload -Uz compinit && compinit # Enable completion system
 zstyle ':completion:*' menu select # Enable menu selection for completion
@@ -79,3 +84,6 @@ fi
 # Set the terminal window/tab title to the current directory
 function _set_terminal_title() { print -Pn "\e]0;%1~\a" }
 add-zsh-hook precmd _set_terminal_title
+
+# Profiling output (see the zmodload at the top). Keep this last.
+[[ -n "$ZSH_PROFILE" ]] && zprof
