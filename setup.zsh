@@ -52,6 +52,17 @@ source ~/.zshrc-config/lib/git.zsh
 # Plugins
 
 source ~/.zshrc-config/plugins/git/git.plugin.zsh
+
+# fzf-tab (brew): replaces the completion menu with an fzf picker. Must load
+# after compinit/compdef-using plugins but BEFORE zsh-autosuggestions and
+# zsh-syntax-highlighting, since it wraps the completion widget.
+if [[ -f "$HOMEBREW_PREFIX/opt/fzf-tab/share/fzf-tab/fzf-tab.zsh" ]]; then
+  source "$HOMEBREW_PREFIX/opt/fzf-tab/share/fzf-tab/fzf-tab.zsh"
+
+  # Preview directory contents when completing `cd`.
+  zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls -la $realpath'
+fi
+
 # Must be installed last
 [[ -f ~/.zshrc-config/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh ]] && \
   source ~/.zshrc-config/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
