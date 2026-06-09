@@ -1,3 +1,12 @@
+# Dedupe $PATH (and other tied arrays): keep only the first occurrence of each
+# entry. Without this, every new interactive shell re-prepends the paths below
+# and $PATH grows with duplicates.
+typeset -U path PATH
+
+# Point mise at the global config tracked in this repo instead of the default
+# ~/.config/mise/config.toml. Set before `mise activate` runs in etc.zsh.
+export MISE_GLOBAL_CONFIG_FILE="$HOME/.zshrc-config/mise/config.toml"
+
 # Go
 # export GOPRIVATE=github.com/nucleuscloud/*
 export PATH="$PATH:$HOME/go/bin"
