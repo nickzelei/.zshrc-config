@@ -26,6 +26,20 @@ simple, fast, and easy to move between machines.
 - `mise/config.toml` — global [mise](https://mise.jdx.dev) tool config, pointed
   at via `MISE_GLOBAL_CONFIG_FILE` so the tool baseline is tracked in the repo.
 - `plugins/` — the vendored `git` plugin plus zsh plugin submodules.
+- `bench/` — init benchmark script and its results log.
+- `Makefile` — maintenance commands; run `make` to list them.
+
+## Commands
+
+Run `make` (no args) in the repo to see everything:
+
+```console
+make          # list commands
+make bench    # benchmark zsh init time, log to bench/results.md
+make profile  # per-component init profile (what's slow)
+make install  # brew deps + plugin submodules
+make update   # update plugin submodules
+```
 
 ## Setup
 
