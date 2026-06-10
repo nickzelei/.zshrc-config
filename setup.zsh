@@ -4,7 +4,24 @@
 [[ -n "$ZSH_PROFILE" ]] && zmodload zsh/zprof
 
 # Basic zsh config
-autoload -Uz compinit && compinit # Enable completion system
+# Initialize completions. compinit normally re-runs its security audit
+# (compaudit) on every startup, which is the bulk of init time. Instead, do the
+# full rebuild + audit only when the dump is missing or older than 24h;
+# otherwise load the cached dump and skip the audit with -C.
+#
+# NB: this uses an array glob, not `[[ -n ~/.zcompdump(#q...) ]]` — filename
+# generation doesn't happen inside [[ ]], so that common idiom silently always
+# takes the slow path.
+autoload -Uz compinit
+# Array glob (filename generation happens here, unlike inside [[ ]]): non-empty
+# only when ~/.zcompdump exists and was modified less than 24h ago.
+_fresh_zcompdump=( ${HOME}/.zcompdump(Nmh-24) )
+if (( $#_fresh_zcompdump )); then
+  compinit -C   # dump is fresh: trust it, skip the audit
+else
+  compinit      # missing or >24h old: rebuild dump and run the audit
+fi
+unset _fresh_zcompdump
 zstyle ':completion:*' menu select # Enable menu selection for completion
 # autoload the hook utility
 autoload -Uz add-zsh-hook
