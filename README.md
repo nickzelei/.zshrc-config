@@ -7,11 +7,16 @@ location is `~/.config/zsh` (the XDG convention for zsh config):
 git clone --recurse-submodules <url> ~/.config/zsh
 ```
 
-Then add to your `~/.zshrc`:
+Then wire it into your `~/.zshrc`. Either run `make link` (idempotent — it
+appends the line below, pointing at wherever the repo actually lives), or add it
+by hand:
 
 ```console
-source ~/.config/zsh/setup.zsh
+[[ -f ~/.config/zsh/setup.zsh ]] && source ~/.config/zsh/setup.zsh
 ```
+
+The `[[ -f ... ]]` guard means your shell still starts cleanly if the repo is
+ever moved or removed, instead of erroring on every prompt.
 
 The repo can live anywhere, though — `setup.zsh` derives its own location and
 sources the sub files relative to it (exposed as `$ZSHRC_CONFIG_DIR`). Just
@@ -42,6 +47,7 @@ Run `make` (no args) in the repo to see everything:
 
 ```console
 make          # list commands
+make link     # add a guarded source line to ~/.zshrc (idempotent)
 make bench    # benchmark zsh init time, log to bench/results.md
 make profile  # per-component init profile (what's slow)
 make install  # brew deps + plugin submodules
