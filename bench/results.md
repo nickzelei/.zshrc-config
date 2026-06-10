@@ -5,3 +5,4 @@ Append a row with `bench/bench.zsh`. Measures `zsh -i -c exit` (ms, lower is bet
 | Date | Commit | Mean [ms] | Min [ms] | Max [ms] |
 |:---|:---|---:|---:|---:|
 | 2026-06-08 20:42 | 0f47e1e | 87.6±3.1 | 84.4 | 93.7 |
+| 2026-06-10 10:41 | ef6727f | 82.1±1.3 | 79.7 | 84.9 |
