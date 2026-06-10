@@ -1,4 +1,4 @@
-# ZSHRC Config
+# zsh config
 
 Clone the repo, then source `setup.zsh` from your `.zshrc`. The recommended
 location is `~/.config/zsh` (the XDG convention for zsh config):
