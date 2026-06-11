@@ -12,6 +12,7 @@ brew "bat"
 brew "gh"
 brew "lazygit"
 brew "hyperfine" # statistical benchmarking; used by bench/bench.zsh
+brew "stow" # symlink farm manager; install.sh uses it to link configs into $HOME
 
 cask "ghostty"
 cask "music-decoy" # https://lowtechguys.com/musicdecoy/

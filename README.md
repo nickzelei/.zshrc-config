@@ -1,15 +1,37 @@
-# zsh config
+# dotfiles
 
-Clone the repo, then source `setup.zsh` from your `.zshrc`. The recommended
-location is `~/.config/zsh` (the XDG convention for zsh config):
+My personal config, managed with [GNU Stow](https://www.gnu.org/software/stow/).
+Currently tracks my zsh setup; structured so more tools can be added later as
+their own stow packages.
+
+## Install
+
+Clone anywhere except `~/.config/zsh` itself (that path becomes a symlink into
+the repo). `~/dotfiles` is the convention and matches where Ona clones it:
 
 ```console
-git clone --recurse-submodules <url> ~/.config/zsh
+git clone --recurse-submodules <url> ~/dotfiles
+cd ~/dotfiles
+make install   # brew deps + symlink + wire up ~/.zshrc
 ```
 
-Then wire it into your `~/.zshrc`. Either run `make link` (idempotent — it
-appends the line below, pointing at wherever the repo actually lives), or add it
-by hand:
+`make install` runs `brew bundle` then `./install.sh`. If you just want the
+symlinks without touching brew, run `./install.sh` (or `make stow`) directly.
+
+Then open a new shell (or `exec zsh`).
+
+### How the linking works
+
+Each top-level directory here is a [stow](https://www.gnu.org/software/stow/)
+package whose contents mirror `$HOME`. The `zsh` package contains
+`zsh/.config/zsh/...`, so stowing it creates:
+
+```
+~/.config/zsh -> ~/dotfiles/zsh/.config/zsh
+```
+
+`install.sh` does the stow (falling back to a plain `ln -s` on minimal images
+where stow isn't installed) and appends a guarded source line to `~/.zshrc`:
 
 ```console
 [[ -f ~/.config/zsh/setup.zsh ]] && source ~/.config/zsh/setup.zsh
@@ -18,9 +40,15 @@ by hand:
 The `[[ -f ... ]]` guard means your shell still starts cleanly if the repo is
 ever moved or removed, instead of erroring on every prompt.
 
-The repo can live anywhere, though — `setup.zsh` derives its own location and
-sources the sub files relative to it (exposed as `$ZSHRC_CONFIG_DIR`). Just
-point the `source` line in your `.zshrc` at wherever you cloned it.
+## Ona
+
+Ona [supports dotfiles](https://ona.com/docs/ona/configuration/dotfiles/overview):
+point it at this repo's Git URL. On environment startup Ona clones it to
+`~/dotfiles` and runs `install.sh` (the first script it finds, ahead of
+`bootstrap`/`setup`). The script is non-interactive and self-contained, so it
+works in Ona's no-TTY startup without hanging. Brew deps are skipped there —
+`install.sh` only does the symlink + submodules + `~/.zshrc` wiring, and the
+config degrades gracefully when tools like `zoxide`/`fzf` aren't present.
 
 ## Motivation
 
@@ -30,16 +58,24 @@ simple, fast, and easy to move between machines.
 
 ## Layout
 
-- `setup.zsh` — entrypoint; prompt, history, keybindings, and sources the rest.
-- `envvars.zsh` — environment variables and `$PATH` setup.
-- `aliases/` — aliases and directory shortcuts.
-- `etc.zsh` — wires up CLI tools (`zoxide`, `mise`, `fzf`).
-- `lib/git.zsh` — git helper functions.
-- `mise/config.toml` — global [mise](https://mise.jdx.dev) tool config, pointed
-  at via `MISE_GLOBAL_CONFIG_FILE` so the tool baseline is tracked in the repo.
-- `plugins/` — the vendored `git` plugin plus zsh plugin submodules.
-- `bench/` — init benchmark script and its results log.
+Repo root holds tooling that is *not* symlinked into `$HOME`:
+
+- `install.sh` — symlinks packages into `$HOME` and wires `~/.zshrc` (idempotent).
+- `Brewfile` — brew deps (`fzf`, `fd`, `ripgrep`, `stow`, `zoxide`, `mise`, …).
 - `Makefile` — maintenance commands; run `make` to list them.
+- `bench/` — init benchmark script and its results log.
+
+Stow packages (their contents get symlinked into `$HOME`):
+
+- `zsh/.config/zsh/` — the whole zsh config, symlinked to `~/.config/zsh`:
+  - `setup.zsh` — entrypoint; prompt, history, keybindings, and sources the rest.
+  - `envvars.zsh` — environment variables and `$PATH` setup.
+  - `aliases/` — aliases and directory shortcuts.
+  - `etc.zsh` — wires up CLI tools (`zoxide`, `mise`, `fzf`).
+  - `lib/git.zsh` — git helper functions.
+  - `mise/config.toml` — global [mise](https://mise.jdx.dev) tool config, pointed
+    at via `MISE_GLOBAL_CONFIG_FILE` so the tool baseline is tracked in the repo.
+  - `plugins/` — the vendored `git` plugin plus zsh plugin submodules.
 
 ## Commands
 
@@ -47,43 +83,27 @@ Run `make` (no args) in the repo to see everything:
 
 ```console
 make          # list commands
-make link     # add a guarded source line to ~/.zshrc (idempotent)
+make install  # brew deps + symlink + wire up ~/.zshrc
+make stow     # symlink + wire up ~/.zshrc (no brew)
 make bench    # benchmark zsh init time, log to bench/results.md
 make profile  # per-component init profile (what's slow)
-make install  # brew deps + plugin submodules
 make update   # update plugin submodules
 ```
 
-## Setup
+## Plugins
 
-### Homebrew dependencies
-
-CLI tools and apps are managed via the `Brewfile` (`fzf`, `fd`, `ripgrep`,
-`fzf-tab`, `zoxide`, `mise`, `bat`, `lazygit`, `gh`, etc.):
+`zsh-autosuggestions` and `zsh-syntax-highlighting` are git submodules under
+`zsh/.config/zsh/plugins/`, conditionally sourced in `setup.zsh`. `install.sh`
+checks them out for you. If you cloned without `--recurse-submodules`:
 
 ```console
-brew bundle
+git submodule update --init --recursive
 ```
 
-### Plugins
-
-Submodules (`zsh-autosuggestions`, `zsh-syntax-highlighting`) are conditionally
-sourced in `setup.zsh`. Clone with submodules:
+To update them to their latest upstream:
 
 ```console
-git clone --recurse-submodules <url>
-```
-
-Or, if already cloned:
-
-```console
-git submodule init && git submodule update
+make update
 ```
 
 `fzf-tab` is installed via Homebrew (in the `Brewfile`) and sourced from there.
-
-#### Updating submodules
-
-```console
-git submodule update --remote --merge
-```
