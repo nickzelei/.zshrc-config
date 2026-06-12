@@ -9,11 +9,15 @@
 #     environment startup. Ona runs it NON-INTERACTIVELY with no TTY, so this
 #     script never prompts and degrades gracefully when tools are missing.
 #     See https://ona.com/docs/ona/configuration/dotfiles/overview
+#
+# Every directory under packages/ is a stow package whose contents mirror $HOME
+# (e.g. packages/zsh/.config/zsh -> ~/.config/zsh). Adding a tool is just
+# `mkdir packages/<tool>/...` — this script discovers it automatically, no edit
+# needed here.
 set -euo pipefail
 
-# Repo root = the directory containing this script, resolved so it works
-# wherever the repo is cloned (~/dotfiles on Ona, anywhere on your laptop).
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PKG_DIR="$REPO_DIR/packages"
 cd "$REPO_DIR"
 
 # Plugins are git submodules; the zsh config sources them, so make sure they're
@@ -22,26 +26,34 @@ if [ -f .gitmodules ] && command -v git >/dev/null 2>&1; then
   git submodule update --init --recursive
 fi
 
-# Symlink the `zsh` stow package into $HOME, i.e. create the link
-#   ~/.config/zsh -> $REPO_DIR/zsh/.config/zsh
-# Prefer GNU Stow; fall back to a plain symlink so this still works on minimal
-# images (like an Ona container) where stow isn't installed.
 mkdir -p "$HOME/.config"
 
-# Guard the footgun: if ~/.config/zsh already exists as a real directory (not a
-# symlink we own), bail loudly instead of nesting a link inside it.
-target="$HOME/.config/zsh"
-if [ -e "$target" ] && [ ! -L "$target" ]; then
-  echo "error: $target exists and is not a symlink." >&2
-  echo "       Move or remove it, then re-run. (If this is the old in-place" >&2
-  echo "       checkout of this repo, that's expected during migration.)" >&2
+# If ~/.config/zsh already exists as a real directory (not a symlink), bail
+# loudly instead of nesting a link inside it. A stale symlink (ours, maybe
+# pointing at an old path) is fine — we drop it below before relinking.
+zdir="$HOME/.config/zsh"
+if [ -e "$zdir" ] && [ ! -L "$zdir" ]; then
+  echo "error: $zdir exists and is not a symlink. Move or remove it, then re-run." >&2
   exit 1
 fi
+[ -L "$zdir" ] && rm -f "$zdir"
 
 if command -v stow >/dev/null 2>&1; then
-  stow --restow --target="$HOME" --dir="$REPO_DIR" zsh
+  # Discover and stow every package under packages/ — no hardcoded list.
+  names=()
+  for p in "$PKG_DIR"/*/; do names+=("$(basename "$p")"); done
+  stow --restow --dir="$PKG_DIR" --target="$HOME" "${names[@]}"
 else
-  ln -sfn "$REPO_DIR/zsh/.config/zsh" "$target"
+  # No stow (e.g. a minimal Ona image). We deliberately DON'T try to install it
+  # — that's the fragile, cross-distro part. Instead guarantee the one thing
+  # that must always work: a usable shell. Link the zsh package directly and
+  # skip the rest with a notice.
+  echo "stow not found — linking the zsh package only (others need stow)." >&2
+  ln -sfn "$PKG_DIR/zsh/.config/zsh" "$zdir"
+  for p in "$PKG_DIR"/*/; do
+    name="$(basename "$p")"
+    [ "$name" = zsh ] || echo "  skipped (needs stow): $name" >&2
+  done
 fi
 
 # Wire the config into ~/.zshrc (guarded so the shell still starts if the repo

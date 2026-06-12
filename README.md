@@ -22,16 +22,16 @@ Then open a new shell (or `exec zsh`).
 
 ### How the linking works
 
-Each top-level directory here is a [stow](https://www.gnu.org/software/stow/)
+Every directory under `packages/` is a [stow](https://www.gnu.org/software/stow/)
 package whose contents mirror `$HOME`. The `zsh` package contains
-`zsh/.config/zsh/...`, so stowing it creates:
+`packages/zsh/.config/zsh/...`, so stowing it creates:
 
 ```
-~/.config/zsh -> ~/dotfiles/zsh/.config/zsh
+~/.config/zsh -> ~/dotfiles/packages/zsh/.config/zsh
 ```
 
-`install.sh` does the stow (falling back to a plain `ln -s` on minimal images
-where stow isn't installed) and appends a guarded source line to `~/.zshrc`:
+`install.sh` discovers every package under `packages/` automatically (no
+hardcoded list) and appends a guarded source line to `~/.zshrc`:
 
 ```console
 [[ -f ~/.config/zsh/setup.zsh ]] && source ~/.config/zsh/setup.zsh
@@ -39,6 +39,27 @@ where stow isn't installed) and appends a guarded source line to `~/.zshrc`:
 
 The `[[ -f ... ]]` guard means your shell still starts cleanly if the repo is
 ever moved or removed, instead of erroring on every prompt.
+
+If `stow` isn't installed (e.g. a minimal image), `install.sh` doesn't try to
+install it — it falls back to linking the `zsh` package directly with `ln -s`
+so you always get a working shell, and prints which other packages it skipped.
+
+### Adding another tool
+
+No script edits — just create a package mirroring where the tool reads from in
+`$HOME`, move the real config in, and re-run:
+
+```console
+mkdir -p packages/git
+mv ~/.gitconfig packages/git/.gitconfig     # move, don't copy
+make stow                                    # picks up the new package
+git add -A && git commit -m "track gitconfig"
+```
+
+Mirror the *full* path under `$HOME` inside the package, e.g.
+`packages/ghostty/.config/ghostty/config` → `~/.config/ghostty/config`. Move
+(don't copy) the original — stow refuses to clobber a real file that's still in
+place, which is its way of telling you to move it into the package first.
 
 ## Ona
 
@@ -49,6 +70,12 @@ point it at this repo's Git URL. On environment startup Ona clones it to
 works in Ona's no-TTY startup without hanging. Brew deps are skipped there —
 `install.sh` only does the symlink + submodules + `~/.zshrc` wiring, and the
 config degrades gracefully when tools like `zoxide`/`fzf` aren't present.
+
+It doesn't assume `stow` is on the image: if it's missing, `install.sh` links
+the `zsh` package directly so the shell still comes up. Most non-shell packages
+(ghostty, other GUI configs) are laptop-only and irrelevant in a remote env
+anyway; for ones that do matter there (git, tmux), make sure `stow` is available
+in the image.
 
 ## Motivation
 
@@ -65,9 +92,9 @@ Repo root holds tooling that is *not* symlinked into `$HOME`:
 - `Makefile` — maintenance commands; run `make` to list them.
 - `bench/` — init benchmark script and its results log.
 
-Stow packages (their contents get symlinked into `$HOME`):
+Stow packages live under `packages/` (their contents get symlinked into `$HOME`):
 
-- `zsh/.config/zsh/` — the whole zsh config, symlinked to `~/.config/zsh`:
+- `packages/zsh/.config/zsh/` — the whole zsh config, symlinked to `~/.config/zsh`:
   - `setup.zsh` — entrypoint; prompt, history, keybindings, and sources the rest.
   - `envvars.zsh` — environment variables and `$PATH` setup.
   - `aliases/` — aliases and directory shortcuts.
@@ -93,7 +120,7 @@ make update   # update plugin submodules
 ## Plugins
 
 `zsh-autosuggestions` and `zsh-syntax-highlighting` are git submodules under
-`zsh/.config/zsh/plugins/`, conditionally sourced in `setup.zsh`. `install.sh`
+`packages/zsh/.config/zsh/plugins/`, conditionally sourced in `setup.zsh`. `install.sh`
 checks them out for you. If you cloned without `--recurse-submodules`:
 
 ```console
